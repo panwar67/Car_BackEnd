@@ -5,6 +5,9 @@
  */
 package caring_desktop;
 
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +21,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import models_caring.Service_Model;
 import org.apache.commons.httpclient.HttpClient;
@@ -41,6 +45,8 @@ public class Main_Panel extends javax.swing.JFrame {
      */
     public Main_Panel() {
         initComponents();
+        On_Double_Click();
+        On_Double_Click_Booking();
          
     }
 
@@ -560,9 +566,7 @@ public class Main_Panel extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jLabel5)
                     .addComponent(jLabel6)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel10))
+                    .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -572,7 +576,7 @@ public class Main_Panel extends javax.swing.JFrame {
                         .addComponent(jLabel24)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(117, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton7)
                     .addComponent(status_serve)
@@ -590,7 +594,14 @@ public class Main_Panel extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(92, 92, 92)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(46, 46, 46)
+                                .addComponent(jLabel10))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel8)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(field_time_close)
                             .addComponent(field_time_open)
@@ -598,7 +609,7 @@ public class Main_Panel extends javax.swing.JFrame {
                             .addComponent(field_price_low)
                             .addComponent(field_vendor_name)
                             .addComponent(field_ven_address)
-                            .addComponent(ratings, 0, 290, Short.MAX_VALUE)
+                            .addComponent(ratings, 0, 340, Short.MAX_VALUE)
                             .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -676,13 +687,10 @@ public class Main_Panel extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(field_time_close, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(29, 29, 29)
-                                .addComponent(jLabel10))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(ratings, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(ratings, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                         .addComponent(label_selected_services)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1193,7 +1201,10 @@ public class Main_Panel extends javax.swing.JFrame {
         } catch (JSONException ex) {
             Logger.getLogger(Main_Panel.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
+                  
+         vendor_list.setRowSelectionAllowed(true);
+
+         
     }
     
     
@@ -1406,6 +1417,94 @@ public class Main_Panel extends javax.swing.JFrame {
         } catch (JSONException ex) {
             Logger.getLogger(Main_Panel.class.getName()).log(Level.SEVERE, null, ex);
         }
+    
+    }
+    
+     public void On_Double_Click()
+    {
+        
+        vendor_list.addMouseListener(new MouseAdapter() {
+   
+            public void mousePressed(MouseEvent me) {
+        
+        JTable table =(JTable) me.getSource();
+        Point p = me.getPoint();
+        int row = table.rowAtPoint(p);
+        if (me.getClickCount() == 2) 
+        {
+            ArrayList<String> data = new ArrayList<String>();
+            
+            for(int i = 0 ; i<vendor_list.getColumnCount();i++)
+            {
+            
+            
+            DefaultTableModel model = (DefaultTableModel) vendor_list.getModel();
+            String tag = vendor_list.getColumnName(i);
+            String tag2 = (String)vendor_list.getValueAt(row,i);
+            data.add(""+tag+" : "+tag2 );
+            // model.getDataVector().elementAt(row);
+
+            }
+                            System.out.println(""+row+" data "+data.toString());
+                            
+                            
+                            Vendor_Detail vendor_Detail = new Vendor_Detail(data);
+//System.out.println(Search_Data.get(row));
+            //Edit_Product edit = new Edit_Product(Search_Data.get(row));
+             
+        
+        //edit.setVisible(true);
+        }
+        
+       
+
+    }
+
+        });
+    
+    }
+     
+      public void On_Double_Click_Booking()
+    {
+        
+        booking_table.addMouseListener(new MouseAdapter() {
+   
+            public void mousePressed(MouseEvent me) {
+        
+        JTable table =(JTable) me.getSource();
+        Point p = me.getPoint();
+        int row = table.rowAtPoint(p);
+        if (me.getClickCount() == 2) 
+        {
+            ArrayList<String> data = new ArrayList<String>();
+            
+            for(int i = 0 ; i<booking_table.getColumnCount();i++)
+            {
+            
+            
+            DefaultTableModel model = (DefaultTableModel) booking_table.getModel();
+            String tag = booking_table.getColumnName(i);
+            String tag2 = (String)booking_table.getValueAt(row,i);
+            data.add(""+tag+" : "+tag2 );
+            // model.getDataVector().elementAt(row);
+
+            }
+                            System.out.println(""+row+" data "+data.toString());
+                            
+                            
+                            Vendor_Detail vendor_Detail = new Vendor_Detail(data);
+//System.out.println(Search_Data.get(row));
+            //Edit_Product edit = new Edit_Product(Search_Data.get(row));
+             
+        
+        //edit.setVisible(true);
+        }
+        
+       
+
+    }
+
+        });
     
     }
     

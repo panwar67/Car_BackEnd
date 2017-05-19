@@ -5,6 +5,8 @@
  */
 package caring_desktop;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Sparsh Tyagi
@@ -14,8 +16,17 @@ public class Vendor_Detail extends javax.swing.JFrame {
     /**
      * Creates new form Vendor_Detail
      */
-    public Vendor_Detail() {
+    public Vendor_Detail(ArrayList<String> data)
+    {
         initComponents();
+        for(int i=0;i<data.size();i++)
+        {
+            
+        vendor_address.append(""+data.get(i));
+        vendor_address.append("\n");
+        this.setVisible(true);
+  
+        }
     }
 
     /**
@@ -27,17 +38,30 @@ public class Vendor_Detail extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jScrollPane1 = new javax.swing.JScrollPane();
+        vendor_address = new javax.swing.JTextArea();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        vendor_address.setColumns(20);
+        vendor_address.setRows(5);
+        jScrollPane1.setViewportView(vendor_address);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         pack();
@@ -73,11 +97,13 @@ public class Vendor_Detail extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Vendor_Detail().setVisible(true);
+                //new Vendor_Detail().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea vendor_address;
     // End of variables declaration//GEN-END:variables
 }
